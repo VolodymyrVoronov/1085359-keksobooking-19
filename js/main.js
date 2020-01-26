@@ -82,9 +82,9 @@ function renderCard(map) {
   mapEl.querySelector('.popup__type').textContent = map.offer.type;
   mapEl.querySelector('.popup__text--capacity').textContent = map.offer.rooms + ' комнаты для ' + map.offer.guests + ' гостей';
   mapEl.querySelector('.popup__text--time').textContent = 'Заезд после ' + map.offer.checkin + ', выезд до ' + map.offer.checkout;
-  mapEl.querySelectorAll('.popup__feature').textContent = map.offer.features;
+  mapEl.querySelector('.popup__features').querySelectorAll('.popup__feature').textContent = map.offer.features;
   mapEl.querySelector('.popup__description').textContent = map.offer.discription;
-  mapEl.querySelector('.popup__photo').src = map.offer.photos;
+  mapEl.querySelector('.popup__photos').querySelector('.popup__photo').src = map.offer.photos;
 
   return mapEl;
 }
