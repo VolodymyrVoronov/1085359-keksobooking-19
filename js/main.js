@@ -4,6 +4,7 @@ var blockMap = document.querySelector('.map');
 blockMap.classList.remove('map--faded');
 
 var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
+var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
 
 function getRandomItem(array) {
   return Math.floor(Math.random() * array.length);
@@ -41,7 +42,7 @@ function pullRandomOffer() {
       address: '600, 350',
       price: PRICES[getRandomItem(PRICES)],
       type: TYPES[getRandomItem(TYPES)],
-      roomes: AMOUNT_OF_ROOMS[getRandomItem(AMOUNT_OF_ROOMS)],
+      rooms: AMOUNT_OF_ROOMS[getRandomItem(AMOUNT_OF_ROOMS)],
       guests: AMOUNT_OF_GUESTS[getRandomItem(AMOUNT_OF_GUESTS)],
       checkin: CHECKINS[getRandomItem(CHECKINS)],
       checkout: CHECKOUTS[getRandomItem(CHECKOUTS)],
@@ -72,11 +73,27 @@ function renderPin(offer) {
   return pinEl;
 }
 
+function renderCard(map) {
+  var mapEl = cardTemplate.cloneNode(true);
+
+  mapEl.querySelector('.popup__title').textContent = map.offer.title;
+  mapEl.querySelector('.popup__text--address').textContent = map.offer.address;
+  mapEl.querySelector('.popup__text--price').textContent = map.offer.price + '₽/ночь';
+  mapEl.querySelector('.popup__type').textContent = map.offer.type;
+  mapEl.querySelector('.popup__text--capacity').textContent = map.offer.rooms + ' комнаты для ' + map.offer.guests + ' гостей';
+  mapEl.querySelector('.popup__text--time').textContent = 'Заезд после ' + map.offer.checkin + ', выезд до ' + map.offer.checkout;
+  mapEl.querySelector('.popup__features').querySelectorAll('.popup__feature').textContent = map.offer.features;
+  mapEl.querySelector('.popup__description').textContent = map.offer.discription;
+  mapEl.querySelector('.popup__photos').querySelector('.popup__photo').src = map.offer.photos;
+
+  return mapEl;
+}
+
 function renderPins() {
   var fragment = document.createDocumentFragment();
   for (var i = 0; i < offers.length; i++) {
     fragment.appendChild(renderPin(offers[i]));
-
+    fragment.appendChild(renderCard(offers[0]));
   }
   pinsBlock.appendChild(fragment);
 }
