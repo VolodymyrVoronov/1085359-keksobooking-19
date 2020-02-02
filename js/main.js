@@ -43,6 +43,7 @@ function checkNumberOfRooms(e) {
     capacityOfRooms.value = 1;
     capacityOfRooms.querySelectorAll('option')[0].disabled = true;
     capacityOfRooms.querySelectorAll('option')[1].disabled = true;
+    capacityOfRooms.querySelectorAll('option')[2].disabled = false;
     capacityOfRooms.querySelectorAll('option')[3].disabled = true;
   } else if (e.target.value === '2') {
     capacityOfRooms.value = 2;
