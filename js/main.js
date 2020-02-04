@@ -283,19 +283,21 @@ function getCoordinatesOnTheMap(e) {
 
 setDisabled(inputsOfAdFrom);
 createObj(OBJECTS_AMOUNT);
-renderPins();
-renderCards();
+
+// renderCards();
 
 mainPin.addEventListener('mousedown', function (e) {
   if (e.which === 1) {
     activateWebsite();
     getCoordinatesOnTheMap(e);
+    renderPins();
   }
 });
 
 mainPin.addEventListener('keydown', function (e) {
   if (e.key === ENTER_KEY) {
     activateWebsite();
+    renderPins();
   }
 });
 
