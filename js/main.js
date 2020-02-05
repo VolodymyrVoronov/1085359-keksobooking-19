@@ -269,7 +269,7 @@ function activateWebsite() {
 //   }
 // }
 
-function showCardVieClickOnPin() {
+function showCardViaClickOnPin() {
   renderCards();
   var closeAdPopup = pinsBlock.querySelector('.popup__close');
   var adPopups = pinsBlock.querySelectorAll('.map__card');
@@ -317,21 +317,20 @@ mainPin.addEventListener('mousedown', function (e) {
     var elemet = array[i];
       if (!elemet.classList.contains('map__pin--main')) {
         elemet.addEventListener('click', function () {
-          showCardVieClickOnPin();
+          showCardViaClickOnPin();
         });
         elemet.addEventListener('keydown', function (e) {
           if (e.key === ENTER_KEY) {
-            showCardVieClickOnPin();
+            showCardViaClickOnPin();
             console.log(e);
           }   
         });
       } 
     }
-    
   }
   renderCardAfterClickOnMapPin(mapPins);
   }
-});
+}, {once: true});
 
 mainPin.addEventListener('keydown', function (e) {
   if (e.key === ENTER_KEY) {
