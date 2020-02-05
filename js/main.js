@@ -19,7 +19,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var DESCS = ['Лучшее место и место, где свершается обладание и проявляет себя силой помысла, — все это дан пример, т. е. в своей непосредственности проявление видимого органа маги. Особенно показателен тут пример звукового созерцания. Звук — это наиболее сильное из проявлений духовного ощущения...', 'Лучшее место? По уставу это никого не касается. В компьютерную игру дело не идет. Только для психотерапевта обязательно. На второй уровень не пускали. Выпускный класс прошли? Ага. Десять встреч в неделю. И получили испытательный сертификат. Запишите. Про три месяца. Отношение ко мне серьезное.', 'Тот самый отель и сейчас стоял в том же самом номере, из окна которого он тогда смотрел на сидящего за круглым столом худого человечка с трубкой во рту. Вдруг он вспомнил: в последний раз во дворе отеля тот говорил что-то о мудром Петре Великом.'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var OBJECTS_AMOUNT = 8;
-// var ESC_KEY = 'Escape';
+var ESC_KEY = 'Escape';
 var ENTER_KEY = 'Enter';
 
 var pinsBlock = document.querySelector('.map__pins');
@@ -284,13 +284,44 @@ function getCoordinatesOnTheMap(e) {
 setDisabled(inputsOfAdFrom);
 createObj(OBJECTS_AMOUNT);
 
-// renderCards();
-
 mainPin.addEventListener('mousedown', function (e) {
   if (e.which === 1) {
     activateWebsite();
     getCoordinatesOnTheMap(e);
     renderPins();
+    // renderCards();
+
+
+  
+  var mapPins = pinsBlock.querySelectorAll('.map__pin');
+  console.log(mapPins);
+
+  function renderCardAfterClickOnMapPin(array) {
+
+    for (var i = 0; i < array.length; i++) {
+    var elemet = array[i];
+      if (elemet.classList.contains('map__pin--main')) {
+        console.log('pots');
+      } else {
+        elemet.addEventListener('click', function () {
+          renderCards();
+
+          var closeAdPopup = pinsBlock.querySelector('.popup__close');
+          var adPopups = pinsBlock.querySelectorAll('.map__card');
+          for (var i = 0; i < adPopups.length; i++) {
+              var elemet = adPopups[i];
+              closeAdPopup.addEventListener('click', function () {
+                elemet.remove();
+            });
+          }
+        });
+      }
+    }
+    
+  }
+  renderCardAfterClickOnMapPin(mapPins);
+
+    
   }
 });
 
@@ -320,3 +351,5 @@ numberOfRooms.addEventListener('change', function (e) {
 capacityOfRooms.addEventListener('change', function (e) {
   checkCapacityOfRooms(e);
 });
+
+
