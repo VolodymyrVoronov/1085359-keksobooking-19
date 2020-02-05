@@ -269,6 +269,23 @@ function activateWebsite() {
 //   }
 // }
 
+function showCardVieClickOnPin() {
+  renderCards();
+  var closeAdPopup = pinsBlock.querySelector('.popup__close');
+  var adPopups = pinsBlock.querySelectorAll('.map__card');
+  for (var i = 0; i < adPopups.length; i++) {
+    var elemet = adPopups[i];
+    closeAdPopup.addEventListener('click', function (e) {
+      elemet.remove();
+    });
+    document.addEventListener('keydown', function (e) {
+      if (e.key === ESC_KEY) {
+        elemet.remove();
+      }
+    });
+  }
+}
+
 function getCoordinatesOnTheMap(e) {
   var x = pinsBlock.offsetWidth;
   var y = pinsBlock.offsetHeight;
@@ -290,8 +307,6 @@ mainPin.addEventListener('mousedown', function (e) {
     getCoordinatesOnTheMap(e);
     renderPins();
     // renderCards();
-
-
   
   var mapPins = pinsBlock.querySelectorAll('.map__pin');
   console.log(mapPins);
@@ -300,28 +315,21 @@ mainPin.addEventListener('mousedown', function (e) {
 
     for (var i = 0; i < array.length; i++) {
     var elemet = array[i];
-      if (elemet.classList.contains('map__pin--main')) {
-        console.log('pots');
-      } else {
+      if (!elemet.classList.contains('map__pin--main')) {
         elemet.addEventListener('click', function () {
-          renderCards();
-
-          var closeAdPopup = pinsBlock.querySelector('.popup__close');
-          var adPopups = pinsBlock.querySelectorAll('.map__card');
-          for (var i = 0; i < adPopups.length; i++) {
-              var elemet = adPopups[i];
-              closeAdPopup.addEventListener('click', function () {
-                elemet.remove();
-            });
-          }
+          showCardVieClickOnPin();
         });
-      }
+        elemet.addEventListener('keydown', function (e) {
+          if (e.key === ENTER_KEY) {
+            showCardVieClickOnPin();
+            console.log(e);
+          }   
+        });
+      } 
     }
     
   }
   renderCardAfterClickOnMapPin(mapPins);
-
-    
   }
 });
 
@@ -329,6 +337,7 @@ mainPin.addEventListener('keydown', function (e) {
   if (e.key === ENTER_KEY) {
     activateWebsite();
     renderPins();
+    console.log(e);
   }
 });
 
