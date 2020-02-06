@@ -229,7 +229,7 @@ function renderCard(map) {
   var mapEl = cardTemplate.cloneNode(true);
   var photosContainer = mapEl.querySelector('.popup__photos');
   var photoContainer = mapEl.querySelector('.popup__photos').querySelector('.popup__photo');
-
+  mapEl.querySelector('.popup__avatar').src = map.author.avatar;
   mapEl.querySelector('.popup__title').textContent = map.offer.title;
   mapEl.querySelector('.popup__text--address').textContent = map.offer.address;
   mapEl.querySelector('.popup__text--price').textContent = map.offer.price + '₽/ночь';
@@ -244,16 +244,29 @@ function renderCard(map) {
 }
 
 function renderPins() {
-  var fragment = document.createDocumentFragment();
+  var fragmentPins = document.createDocumentFragment();
   for (var i = 0; i < offers.length; i++) {
-    fragment.appendChild(renderPin(offers[i]));
+    var renderP = renderPin(offers[i]);
+    fragmentPins.appendChild(renderP);
   }
-  pinsBlock.appendChild(fragment);
+  pinsBlock.appendChild(fragmentPins);
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  pins.forEach(function (element, index) {
+    element.addEventListener('click', function () {
+      var isElement = document.querySelector('.map__card');
+      if (isElement) {
+        isElement.remove();
+      }
+      renderCards(offers[index]);
+      mountedCard();
+    });
+  });
 }
 
-function renderCards() {
+function renderCards(offer) {
+  var renderC = renderCard(offer);
   var fragment = document.createDocumentFragment();
-  fragment.appendChild(renderCard(offers[0]));
+  fragment.appendChild(renderC);
   pinsBlock.appendChild(fragment);
 }
 
@@ -269,21 +282,17 @@ function activateWebsite() {
 //   }
 // }
 
-function showCardViaClickOnPin() {
-  renderCards();
-  var closeAdPopup = pinsBlock.querySelector('.popup__close');
-  var adPopups = pinsBlock.querySelectorAll('.map__card');
-  for (var i = 0; i < adPopups.length; i++) {
-    var elemet = adPopups[i];
-    closeAdPopup.addEventListener('click', function (e) {
-      elemet.remove();
-    });
-    document.addEventListener('keydown', function (e) {
-      if (e.key === ESC_KEY) {
-        elemet.remove();
-      }
-    });
-  }
+function mountedCard() {
+  var card = document.querySelector('.map__card');
+  var closeAdPopup = card.querySelector('.popup__close');
+  closeAdPopup.addEventListener('click', function () {
+    card.remove();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === ESC_KEY) {
+      card.remove();
+    }
+  });
 }
 
 function getCoordinatesOnTheMap(e) {
@@ -306,38 +315,18 @@ mainPin.addEventListener('mousedown', function (e) {
     activateWebsite();
     getCoordinatesOnTheMap(e);
     renderPins();
-    // renderCards();
-  
-  var mapPins = pinsBlock.querySelectorAll('.map__pin');
-  console.log(mapPins);
-
-  function renderCardAfterClickOnMapPin(array) {
-
-    for (var i = 0; i < array.length; i++) {
-    var elemet = array[i];
-      if (!elemet.classList.contains('map__pin--main')) {
-        elemet.addEventListener('click', function () {
-          showCardViaClickOnPin();
-        });
-        elemet.addEventListener('keydown', function (e) {
-          if (e.key === ENTER_KEY) {
-            showCardViaClickOnPin();
-            console.log(e);
-          }   
-        });
-      } 
-    }
   }
-  renderCardAfterClickOnMapPin(mapPins);
-  }
-}, {once: true});
+}, {
+  once: true
+});
 
 mainPin.addEventListener('keydown', function (e) {
   if (e.key === ENTER_KEY) {
     activateWebsite();
     renderPins();
-    console.log(e);
   }
+}, {
+  once: true
 });
 
 typeOfAccomodation.addEventListener('change', function (e) {
@@ -359,5 +348,3 @@ numberOfRooms.addEventListener('change', function (e) {
 capacityOfRooms.addEventListener('change', function (e) {
   checkCapacityOfRooms(e);
 });
-
-
