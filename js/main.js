@@ -19,7 +19,7 @@ var FEATURES = ['wifi', 'dishwasher', 'parking', 'washer', 'elevator', 'conditio
 var DESCS = ['Лучшее место и место, где свершается обладание и проявляет себя силой помысла, — все это дан пример, т. е. в своей непосредственности проявление видимого органа маги. Особенно показателен тут пример звукового созерцания. Звук — это наиболее сильное из проявлений духовного ощущения...', 'Лучшее место? По уставу это никого не касается. В компьютерную игру дело не идет. Только для психотерапевта обязательно. На второй уровень не пускали. Выпускный класс прошли? Ага. Десять встреч в неделю. И получили испытательный сертификат. Запишите. Про три месяца. Отношение ко мне серьезное.', 'Тот самый отель и сейчас стоял в том же самом номере, из окна которого он тогда смотрел на сидящего за круглым столом худого человечка с трубкой во рту. Вдруг он вспомнил: в последний раз во дворе отеля тот говорил что-то о мудром Петре Великом.'];
 var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
 var OBJECTS_AMOUNT = 8;
-// var ESC_KEY = 'Escape';
+var ESC_KEY = 'Escape';
 var ENTER_KEY = 'Enter';
 
 var pinsBlock = document.querySelector('.map__pins');
@@ -229,7 +229,7 @@ function renderCard(map) {
   var mapEl = cardTemplate.cloneNode(true);
   var photosContainer = mapEl.querySelector('.popup__photos');
   var photoContainer = mapEl.querySelector('.popup__photos').querySelector('.popup__photo');
-
+  mapEl.querySelector('.popup__avatar').src = map.author.avatar;
   mapEl.querySelector('.popup__title').textContent = map.offer.title;
   mapEl.querySelector('.popup__text--address').textContent = map.offer.address;
   mapEl.querySelector('.popup__text--price').textContent = map.offer.price + '₽/ночь';
@@ -244,16 +244,29 @@ function renderCard(map) {
 }
 
 function renderPins() {
-  var fragment = document.createDocumentFragment();
+  var fragmentPins = document.createDocumentFragment();
   for (var i = 0; i < offers.length; i++) {
-    fragment.appendChild(renderPin(offers[i]));
+    var renderP = renderPin(offers[i]);
+    fragmentPins.appendChild(renderP);
   }
-  pinsBlock.appendChild(fragment);
+  pinsBlock.appendChild(fragmentPins);
+  var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+  pins.forEach(function (element, index) {
+    element.addEventListener('click', function () {
+      var isElement = document.querySelector('.map__card');
+      if (isElement) {
+        isElement.remove();
+      }
+      renderCards(offers[index]);
+      mountedCard();
+    });
+  });
 }
 
-function renderCards() {
+function renderCards(offer) {
+  var renderC = renderCard(offer);
   var fragment = document.createDocumentFragment();
-  fragment.appendChild(renderCard(offers[0]));
+  fragment.appendChild(renderC);
   pinsBlock.appendChild(fragment);
 }
 
@@ -268,6 +281,19 @@ function activateWebsite() {
 //     activateWebsite();
 //   }
 // }
+
+function mountedCard() {
+  var card = document.querySelector('.map__card');
+  var closeAdPopup = card.querySelector('.popup__close');
+  closeAdPopup.addEventListener('click', function () {
+    card.remove();
+  });
+  document.addEventListener('keydown', function (e) {
+    if (e.key === ESC_KEY) {
+      card.remove();
+    }
+  });
+}
 
 function getCoordinatesOnTheMap(e) {
   var x = pinsBlock.offsetWidth;
@@ -284,14 +310,14 @@ function getCoordinatesOnTheMap(e) {
 setDisabled(inputsOfAdFrom);
 createObj(OBJECTS_AMOUNT);
 
-// renderCards();
-
 mainPin.addEventListener('mousedown', function (e) {
   if (e.which === 1) {
     activateWebsite();
     getCoordinatesOnTheMap(e);
     renderPins();
   }
+}, {
+  once: true
 });
 
 mainPin.addEventListener('keydown', function (e) {
@@ -299,6 +325,8 @@ mainPin.addEventListener('keydown', function (e) {
     activateWebsite();
     renderPins();
   }
+}, {
+  once: true
 });
 
 typeOfAccomodation.addEventListener('change', function (e) {
