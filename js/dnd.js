@@ -1,57 +1,60 @@
 'use strict';
 
 (function () {
+  var pinsBlock = document.querySelector('.map__pins');
+  var mainPin = document.querySelector('.map__pin--main');
+  var inputAddress = document.querySelector('#address');
 
-  var setupDialogElement = document.querySelector('.map__pin--main');
+  var isDragged = false;
 
-  document.addEventListener('mousedown', function (evt) {
-    evt.preventDefault();
+  var limits = {
+    top: 130,
+    right: pinsBlock.offsetWidth + pinsBlock.offsetLeft - mainPin.offsetWidth + 110,
+    bottom: 630,
+    left: pinsBlock.offsetLeft + 110
+  };
 
-    var startCoords = {
-      x: evt.clientX,
-      y: evt.clientY
-    };
-
-    var dragged = false;
-
-    var onMouseMove = function (moveEvt) {
-      moveEvt.preventDefault();
-      dragged = true;
-
-      var shift = {
-        x: startCoords.x - moveEvt.clientX,
-        y: startCoords.y - moveEvt.clientY
-      };
-
-      startCoords = {
-        x: moveEvt.clientX,
-        y: moveEvt.clientY
-      };
-
-      setupDialogElement.style.top = (setupDialogElement.offsetTop - shift.y) + 'px';
-      setupDialogElement.style.left = (setupDialogElement.offsetLeft - shift.x) + 'px';
-
-    };
-
-    var onMouseUp = function (upEvt) {
-      upEvt.preventDefault();
-
-      document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseUp);
-
-      if (dragged) {
-        var onClickPreventDefault = function (clickEvt) {
-          clickEvt.preventDefault();
-          document.removeEventListener('click', onClickPreventDefault);
-        };
-        document.addEventListener('click', onClickPreventDefault);
-      }
-
-    };
-
-    document.addEventListener('mousemove', onMouseMove);
-    document.addEventListener('mouseup', onMouseUp);
+  mainPin.addEventListener('mousedown', function (e) {
+    e.preventDefault();
+    isDragged = true;
+    inputAddress.value = (e.pageX + ', ' + e.pageY);
   });
+
+  document.addEventListener('mouseup', function () {
+    isDragged = false;
+  });
+
+  document.addEventListener('mousemove', function (e) {
+    e.preventDefault();
+    if (isDragged) {
+      move(e);
+      // console.log(e);
+    }
+  });
+
+  function move(e) {
+    var newLocation = {
+      x: limits.left,
+      y: limits.top
+    };
+    if (e.pageX > limits.right) {
+      newLocation.x = limits.right;
+    } else if (e.pageX > limits.left) {
+      newLocation.x = e.pageX;
+    }
+    if (e.pageY > limits.bottom) {
+      newLocation.y = limits.bottom;
+    } else if (e.pageY > limits.top) {
+      newLocation.y = e.pageY;
+    }
+    relocate(newLocation);
+  }
+
+  function relocate(newLocation) {
+    mainPin.style.left = newLocation.x - 110 + 'px';
+    mainPin.style.top = newLocation.y - 30 + 'px';
+    inputAddress.value = (newLocation.x + ', ' + newLocation.y);
+  }
 })();
 
 
