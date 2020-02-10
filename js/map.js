@@ -41,6 +41,7 @@
     if (e.key === ENTER_KEY) {
       activateWebsite();
       window.renderPins();
+      window.getPinTailCoordinates();
     }
   }, {
     once: true
