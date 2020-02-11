@@ -4,9 +4,7 @@
   var mainPin = document.querySelector('.map__pin--main');
   var inputAddress = document.querySelector('#address');
 
-  // mainPin.addEventListener('click', function () {
-  //   inputAddress.value = (410 + ', ' + 655);
-  // }, {once: true});
+  inputAddress.value = (410 + ', ' + 655);
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -16,11 +14,11 @@
       y: evt.clientY,
     };
 
-    var isDragged = false;
+    // var isDragged = false;
 
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-      isDragged = true;
+      // isDragged = true;
 
       var shift = {
         x: startCoordinates.x - moveEvt.clientX,
@@ -80,13 +78,13 @@
       document.removeEventListener('mousemove', onMouseMove);
       document.removeEventListener('mouseup', onMouseMove);
 
-      if (isDragged) {
-        function onClickPreventDefault(clickEvt) {
-          clickEvt.preventDefault();
-          mainPin.removeEventListener('click', onClickPreventDefault);
-        }
-        mainPin.addEventListener('click', onClickPreventDefault);
-      }
+      // if (isDragged) {
+      //   function onClickPreventDefault(clickEvt) {
+      //     clickEvt.preventDefault();
+      //     mainPin.removeEventListener('click', onClickPreventDefault);
+      //   }
+      //   mainPin.addEventListener('click', onClickPreventDefault);
+      // }
     }
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
