@@ -49,9 +49,9 @@
   }
 
   window.renderCards = function (offer) {
-    var renderC = renderCard(offer);
+    var renderCardElement = renderCard(offer);
     var fragment = document.createDocumentFragment();
-    fragment.appendChild(renderC);
+    fragment.appendChild(renderCardElement);
     pinsBlock.appendChild(fragment);
   };
 

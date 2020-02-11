@@ -3,12 +3,12 @@
 (function () {
   var ENTER_KEY = 'Enter';
 
-  var pinsBlock = document.querySelector('.map__pins');
+  // var pinsBlock = document.querySelector('.map__pins');
   var mainPin = document.querySelector('.map__pin--main');
   var blockMap = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
-  var inputAddress = adForm.querySelector('#address');
+  // var inputAddress = adForm.querySelector('#address');
 
   function activateWebsite() {
     blockMap.classList.remove('map--faded');
@@ -28,22 +28,9 @@
     }
   }
 
-  function getCoordinatesOnTheMap(e) {
-    var x = pinsBlock.offsetWidth;
-    var y = pinsBlock.offsetHeight;
-    while (e) {
-      x = x + parseFloat(e.offsetX);
-      y = y + parseFloat(e.offsetY);
-      e = e.offsetParent;
-    }
-    inputAddress.value = (x + ' ' + y);
-    // return {x: Math.round(x), y: Math.round(y)};
-  }
-
-  mainPin.addEventListener('mousedown', function (e) {
+  mainPin.addEventListener('mouseup', function (e) {
     if (e.which === 1) {
       activateWebsite();
-      getCoordinatesOnTheMap(e);
       window.renderPins();
     }
   }, {
@@ -54,6 +41,7 @@
     if (e.key === ENTER_KEY) {
       activateWebsite();
       window.renderPins();
+      window.getPinTailCoordinates();
     }
   }, {
     once: true
