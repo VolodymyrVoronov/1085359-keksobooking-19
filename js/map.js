@@ -31,7 +31,7 @@
   mainPin.addEventListener('mouseup', function (e) {
     if (e.which === 1) {
       activateWebsite();
-      window.renderPins();
+      window.load(window.renderPins, window.errorHandler);
     }
   }, {
     once: true
@@ -40,8 +40,7 @@
   mainPin.addEventListener('keydown', function (e) {
     if (e.key === ENTER_KEY) {
       activateWebsite();
-      window.renderPins();
-      window.getPinTailCoordinates();
+      window.load(window.renderPins, window.errorHandler);
     }
   }, {
     once: true
