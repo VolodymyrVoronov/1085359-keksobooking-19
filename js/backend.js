@@ -7,6 +7,7 @@
   };
   var TIMEOUT_IN_MS = 1000;
   var ESC_KEY = 'Escape';
+  var ENTER_KEY = 'Enter';
 
   window.load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -59,7 +60,9 @@
 
   window.successHandler = function () {
     var adForm = document.querySelector('.ad-form');
-    // var pins = document.querySelectorAll('.map__pin');
+    var mainPin = document.querySelector('.map__pin--main');
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var card = document.querySelector('.map__card');
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successHandlerMessage = successTemplate.cloneNode(true);
     document.body.insertAdjacentElement('afterbegin', successHandlerMessage);
@@ -72,7 +75,30 @@
       successHandlerMessage.remove();
     });
     adForm.reset();
+    card.remove();
     window.deactivateWebsite();
+    mainPin.style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
+    pins.forEach(function (i) {
+      i.remove();
+    });
+
+    mainPin.addEventListener('mouseup', function (e) {
+      if (e.which === 1) {
+        window.activateWebsite();
+        window.load(window.renderPins, window.errorHandler);
+      }
+    }, {
+      once: true
+    });
+
+    mainPin.addEventListener('keydown', function (e) {
+      if (e.key === ENTER_KEY) {
+        window.activateWebsite();
+        window.load(window.renderPins, window.errorHandler);
+      }
+    }, {
+      once: true
+    });
   };
 
   window.errorHandler = function () {
