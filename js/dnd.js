@@ -14,11 +14,8 @@
       y: evt.clientY,
     };
 
-    // var isDragged = false;
-
     function onMouseMove(moveEvt) {
       moveEvt.preventDefault();
-      // isDragged = true;
 
       var shift = {
         x: startCoordinates.x - moveEvt.clientX,
@@ -43,17 +40,17 @@
       var limits = {
         x: {
           min: 0,
-          max: 1200
+          max: 1200,
         },
         y: {
           min: 130,
-          max: 630
+          max: 630,
         }
       };
 
       var limitShapes = {
-        top: limits.y.min - mainPinSize.height,
-        bottom: limits.y.max - mainPinSize.height,
+        top: limits.y.min - mainPinSize.height / 2,
+        bottom: limits.y.max - mainPinSize.height / 2,
         left: limits.x.min,
         right: limits.x.max - mainPinSize.width,
       };
