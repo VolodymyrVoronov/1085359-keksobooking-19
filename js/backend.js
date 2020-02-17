@@ -5,7 +5,8 @@
   var StatusCode = {
     OK: 200,
   };
-  var TIMEOUT_IN_MS = 10000;
+  var TIMEOUT_IN_MS = 1000;
+  var ESC_KEY = 'Escape';
 
   window.load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
@@ -32,15 +33,64 @@
     xhr.send();
   };
 
-  window.errorHandler = function (errorMessage) {
-    var node = document.createElement('div');
-    node.style = 'z-index: 100; margin: 0 auto; text-align: center; background-color: red;';
-    node.style.position = 'absolute';
-    node.style.left = 0;
-    node.style.right = 0;
-    node.style.fontSize = '30px';
+  window.save = function (form, formOnLoad, formOnError) {
+    var oReq = new XMLHttpRequest();
+    var oData = new FormData(form);
 
-    node.textContent = errorMessage;
-    document.body.insertAdjacentElement('afterbegin', node);
+    oReq.addEventListener('load', function () {
+      if (oReq.status === StatusCode.OK) {
+        formOnLoad(oReq.response);
+      } else {
+        formOnError('Статус ответа: ' + oReq.status + ' ' + oReq.statusText);
+      }
+    });
+
+    oReq.addEventListener('error', function () {
+      formOnError('Произошла ошибка соединения');
+    });
+    oReq.addEventListener('timeout', function () {
+      formOnError('Запрос не успел выполниться за ' + oReq.timeout + 'мс');
+    });
+
+    oReq.timeout = TIMEOUT_IN_MS;
+    oReq.open('POST', 'https://js.dump.academy/keksobooking');
+    oReq.send(oData);
+  };
+
+  window.successHandler = function () {
+    var adForm = document.querySelector('.ad-form');
+    // var pins = document.querySelectorAll('.map__pin');
+    var successTemplate = document.querySelector('#success').content.querySelector('.success');
+    var successHandlerMessage = successTemplate.cloneNode(true);
+    document.body.insertAdjacentElement('afterbegin', successHandlerMessage);
+    document.addEventListener('keydown', function (e) {
+      if (e.key === ESC_KEY) {
+        successHandlerMessage.remove();
+      }
+    });
+    document.addEventListener('click', function () {
+      successHandlerMessage.remove();
+    });
+    adForm.reset();
+    window.deactivateWebsite();
+  };
+
+  window.errorHandler = function () {
+    var errorTemplate = document.querySelector('#error').content.querySelector('.error');
+    var errorHandlerMessage = errorTemplate.cloneNode(true);
+    var errorBtn = document.querySelector('.error__button');
+    document.body.insertAdjacentElement('afterbegin', errorHandlerMessage);
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === ESC_KEY) {
+        errorHandlerMessage.remove();
+      }
+    });
+    document.addEventListener('click', function () {
+      errorHandlerMessage.remove();
+    });
+    errorBtn.addEventListener('click', function () {
+      errorHandlerMessage.remove();
+    });
   };
 })();

@@ -12,11 +12,11 @@
     return pinEl;
   }
 
-  window.renderPins = function (pins) {
+  window.renderPins = function (datas) {
     var pinsBlock = document.querySelector('.map__pins');
     var fragmentPins = document.createDocumentFragment();
-    for (var i = 0; i < pins.length; i++) {
-      var renderElement = renderPin(pins[i]);
+    for (var i = 0; i < datas.length; i++) {
+      var renderElement = renderPin(datas[i]);
       fragmentPins.appendChild(renderElement);
     }
     pinsBlock.appendChild(fragmentPins);
@@ -27,7 +27,7 @@
         if (isElement) {
           isElement.remove();
         }
-        window.renderCards(pins[index]);
+        window.renderCards(datas[index]);
         window.mountedCard();
       });
     });

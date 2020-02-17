@@ -47,11 +47,8 @@
       numberOfRooms.value = 1;
     } else if (e.target.value === '2') {
       numberOfRooms.value = 2;
-      // capacityOfRooms.value = 1;
     } else if (e.target.value === '3') {
       numberOfRooms.value = 3;
-      // capacityOfRooms.value = 2;
-      // capacityOfRooms.value = 1;
     } else if (e.target.value === '0') {
       numberOfRooms.value = 100;
     }
@@ -93,17 +90,11 @@
     }
   }
 
-  function setDisabled(array) {
+  window.setDisabled = function (array) {
     for (var i = 0; i < array.length; i++) {
       array[i].disabled = true;
     }
-  }
-
-  // function setEnabled(array) {
-  //   for (var i = 0; i < array.length; i++) {
-  //     array[i].disabled = false;
-  //   }
-  // }
+  };
 
   typeOfAccomodation.addEventListener('change', function (e) {
     checkValidityOfInputs(e);
@@ -125,5 +116,10 @@
     checkCapacityOfRooms(e);
   });
 
-  setDisabled(inputsOfAdFrom);
+  window.setDisabled(inputsOfAdFrom);
+
+  adForm.addEventListener('submit', function (evt) {
+    window.save(adForm, window.successHandler, window.errorHandler);
+    evt.preventDefault();
+  });
 })();
