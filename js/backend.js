@@ -66,18 +66,23 @@
     var successTemplate = document.querySelector('#success').content.querySelector('.success');
     var successHandlerMessage = successTemplate.cloneNode(true);
     document.body.insertAdjacentElement('afterbegin', successHandlerMessage);
+    var successMessage = document.querySelector('.success__message');
     document.addEventListener('keydown', function (e) {
       if (e.key === ESC_KEY) {
         successHandlerMessage.remove();
       }
     });
-    document.addEventListener('click', function () {
-      successHandlerMessage.remove();
-    });
+    window.addEventListener('click', function (e) {
+      if (e.target !== successMessage) {
+        successHandlerMessage.remove();
+      }
+    }, true);
     adForm.reset();
-    card.remove();
     window.deactivateWebsite();
     mainPin.style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
+    if (card) {
+      card.remove();
+    }
     pins.forEach(function (i) {
       i.remove();
     });
@@ -106,15 +111,17 @@
     var errorHandlerMessage = errorTemplate.cloneNode(true);
     var errorBtn = document.querySelector('.error__button');
     document.body.insertAdjacentElement('afterbegin', errorHandlerMessage);
-
+    var errorMessage = document.querySelector('.error__message');
     document.addEventListener('keydown', function (e) {
       if (e.key === ESC_KEY) {
         errorHandlerMessage.remove();
       }
     });
-    document.addEventListener('click', function () {
-      errorHandlerMessage.remove();
-    });
+    window.addEventListener('click', function (e) {
+      if (e.target !== errorMessage) {
+        errorHandlerMessage.remove();
+      }
+    }, true);
     errorBtn.addEventListener('click', function () {
       errorHandlerMessage.remove();
     });
