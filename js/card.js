@@ -2,6 +2,12 @@
 
 (function () {
   var ESC_KEY = 'Escape';
+  var TYPES_OF_ACCOMODATIONS = {
+    palace: 'Дворец',
+    flat: 'Квартира',
+    house: 'Дом',
+    bungalo: 'Бунгало'
+  };
   var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
   var pinsBlock = document.querySelector('.map__pins');
 
@@ -40,13 +46,13 @@
     mapEl.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
 
     if (data.offer.type === 'palace') {
-      mapEl.querySelector('.popup__type').textContent = 'Дворец';
+      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.palace;
     } else if (data.offer.type === 'flat') {
-      mapEl.querySelector('.popup__type').textContent = 'Квартира';
+      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.flat;
     } else if (data.offer.type === 'house') {
-      mapEl.querySelector('.popup__type').textContent = 'Дом';
+      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.house;
     } else if (data.offer.type === 'bungalo') {
-      mapEl.querySelector('.popup__type').textContent = 'Бунгало';
+      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.bungalo;
     }
 
     mapEl.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';

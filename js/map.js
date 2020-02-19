@@ -10,17 +10,23 @@
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
   // var inputAddress = adForm.querySelector('#address');
 
-  function activateWebsite() {
+  window.activateWebsite = function () {
     blockMap.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     setEnabled(inputsOfAdFrom);
-  }
+  };
 
-  // function setDisabled(array) {
-  //   for (var i = 0; i < array.length; i++) {
-  //     array[i].disabled = true;
-  //   }
-  // }
+  window.deactivateWebsite = function () {
+    blockMap.classList.add('map--faded');
+    adForm.classList.add('ad-form--disabled');
+    setDisabled(inputsOfAdFrom);
+  };
+
+  function setDisabled(array) {
+    for (var i = 0; i < array.length; i++) {
+      array[i].disabled = true;
+    }
+  }
 
   function setEnabled(array) {
     for (var i = 0; i < array.length; i++) {
@@ -30,7 +36,7 @@
 
   mainPin.addEventListener('mouseup', function (e) {
     if (e.which === 1) {
-      activateWebsite();
+      window.activateWebsite();
       window.load(window.renderPins, window.errorHandler);
     }
   }, {
@@ -39,7 +45,7 @@
 
   mainPin.addEventListener('keydown', function (e) {
     if (e.key === ENTER_KEY) {
-      activateWebsite();
+      window.activateWebsite();
       window.load(window.renderPins, window.errorHandler);
     }
   }, {

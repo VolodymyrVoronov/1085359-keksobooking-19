@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var ENTER_KEY = 'Enter';
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
   // var inputAddress = adForm.querySelector('#address');
@@ -10,6 +11,8 @@
   var timeOut = adForm.querySelector('#timeout');
   var numberOfRooms = adForm.querySelector('#room_number');
   var capacityOfRooms = adForm.querySelector('#capacity');
+  var resetBtn = adForm.querySelector('.ad-form__reset');
+  var mainPin = document.querySelector('.map__pin--main');
 
   function checkNumberOfRooms(e) {
     if (e.target.value === '1') {
@@ -47,11 +50,8 @@
       numberOfRooms.value = 1;
     } else if (e.target.value === '2') {
       numberOfRooms.value = 2;
-      // capacityOfRooms.value = 1;
     } else if (e.target.value === '3') {
       numberOfRooms.value = 3;
-      // capacityOfRooms.value = 2;
-      // capacityOfRooms.value = 1;
     } else if (e.target.value === '0') {
       numberOfRooms.value = 100;
     }
@@ -93,17 +93,48 @@
     }
   }
 
-  function setDisabled(array) {
+  function resetForm() {
+    var pins = document.querySelectorAll('.map__pin:not(.map__pin--main)');
+    var card = document.querySelector('.map__card');
+
+    adForm.reset();
+    window.deactivateWebsite();
+    mainPin.style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
+    if (card) {
+      card.remove();
+    }
+    pins.forEach(function (i) {
+      i.remove();
+    });
+
+    mainPin.addEventListener('mouseup', function (e) {
+      if (e.which === 1) {
+        window.activateWebsite();
+        window.load(window.renderPins, window.errorHandler);
+      }
+    }, {
+      once: true
+    });
+
+    mainPin.addEventListener('keydown', function (e) {
+      if (e.key === ENTER_KEY) {
+        window.activateWebsite();
+        window.load(window.renderPins, window.errorHandler);
+      }
+    }, {
+      once: true
+    });
+  }
+
+  window.setDisabled = function (array) {
     for (var i = 0; i < array.length; i++) {
       array[i].disabled = true;
     }
-  }
+  };
 
-  // function setEnabled(array) {
-  //   for (var i = 0; i < array.length; i++) {
-  //     array[i].disabled = false;
-  //   }
-  // }
+  resetBtn.addEventListener('click', function () {
+    resetForm();
+  });
 
   typeOfAccomodation.addEventListener('change', function (e) {
     checkValidityOfInputs(e);
@@ -125,5 +156,10 @@
     checkCapacityOfRooms(e);
   });
 
-  setDisabled(inputsOfAdFrom);
+  window.setDisabled(inputsOfAdFrom);
+
+  adForm.addEventListener('submit', function (evt) {
+    window.save(adForm, window.successHandler, window.errorHandler);
+    evt.preventDefault();
+  });
 })();
