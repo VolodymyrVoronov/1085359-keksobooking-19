@@ -10,35 +10,19 @@ function loadTheAds(data) {
 
 window.updatesFilter = function () {
   var typeOfAccomodation;
-  if (filterOfTypeOfAccomodation.value === 'any') {
-    typeOfAccomodation = ads.slice(0, 5).filter(function (i) {
-      return i.offer.type === 'bungalo'
-      || i.offer.type === 'palace'
-      || i.offer.type === 'flat'
-      || i.offer.type === 'house';
-    });
+
+  function selectTypeOfAccomodation(type) {
+    if (filterOfTypeOfAccomodation.value !== 'any') {
+      typeOfAccomodation = ads.filter(function (i) {
+        return i.offer.type === type;
+      });
+      return typeOfAccomodation.slice(0, 5);
+    } else {
+      return ads.slice(0, 5);
+    }
   }
-  if (filterOfTypeOfAccomodation.value === 'palace') {
-    typeOfAccomodation = ads.filter(function (i) {
-      return i.offer.type === 'palace';
-    });
-  }
-  if (filterOfTypeOfAccomodation.value === 'flat') {
-    typeOfAccomodation = ads.filter(function (i) {
-      return i.offer.type === 'flat';
-    });
-  }
-  if (filterOfTypeOfAccomodation.value === 'house') {
-    typeOfAccomodation = ads.filter(function (i) {
-      return i.offer.type === 'house';
-    });
-  }
-  if (filterOfTypeOfAccomodation.value === 'bungalo') {
-    typeOfAccomodation = ads.filter(function (i) {
-      return i.offer.type === 'bungalo';
-    });
-  }
-  var filteredTypeOfAccomodation = typeOfAccomodation;
+
+  var filteredTypeOfAccomodation = selectTypeOfAccomodation(filterOfTypeOfAccomodation.value);
 
   window.renderPins(filteredTypeOfAccomodation);
 };

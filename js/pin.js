@@ -27,6 +27,8 @@
         if (isElement) {
           isElement.remove();
         }
+        window.checkIfIsThereAClass();
+        element.classList.add('map__pin--active');
         window.renderCards(datas[index]);
         window.mountedCard();
       });
