@@ -1,8 +1,14 @@
 'use strict';
 
 (function () {
+  window.removeCards = function () {
+    var isElement = document.querySelector('.map__card');
+    if (isElement) {
+      isElement.remove();
+    }
+  };
+
   function renderPin(pin) {
-    // var pinsBlock = document.querySelector('.map__pins');
     var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
     var pinEl = pinTemplate.cloneNode(true);
 
@@ -23,10 +29,7 @@
     var pinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinElements.forEach(function (element, index) {
       element.addEventListener('click', function () {
-        var isElement = document.querySelector('.map__card');
-        if (isElement) {
-          isElement.remove();
-        }
+        window.removeCards();
         window.checkIfIsThereAClass();
         element.classList.add('map__pin--active');
         window.renderCards(datas[index]);

@@ -71,7 +71,7 @@
       if (e.key === ESC_KEY) {
         successHandlerMessage.remove();
       }
-    });
+    }, {once: true});
     window.addEventListener('click', function (e) {
       if (e.target !== successMessage) {
         successHandlerMessage.remove();

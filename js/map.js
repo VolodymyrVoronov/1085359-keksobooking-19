@@ -2,13 +2,10 @@
 
 (function () {
   var ENTER_KEY = 'Enter';
-
-  // var pinsBlock = document.querySelector('.map__pins');
   var mainPin = document.querySelector('.map__pin--main');
   var blockMap = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
-  // var inputAddress = adForm.querySelector('#address');
 
   window.activateWebsite = function () {
     blockMap.classList.remove('map--faded');
@@ -37,7 +34,6 @@
   mainPin.addEventListener('mouseup', function (e) {
     if (e.which === 1) {
       window.activateWebsite();
-      // window.load(window.renderPins, window.errorHandler);
       window.updatesFilter();
     }
   }, {
@@ -47,7 +43,6 @@
   mainPin.addEventListener('keydown', function (e) {
     if (e.key === ENTER_KEY) {
       window.activateWebsite();
-      // window.load(window.renderPins, window.errorHandler);
       window.updatesFilter();
     }
   }, {

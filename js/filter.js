@@ -2,7 +2,23 @@
 
 var DEBOUNCE_INTERVAL = 500;
 
+var chosenPrice = {
+  LOW: {
+    MIN: 0,
+    MAX: 10000
+  },
+  MIDDLE: {
+    MIN: 10000,
+    MAX: 50000
+  },
+  HIGH: {
+    MIN: 50000,
+    MAX: Infinity
+  }
+};
+
 var ads = [];
+var filteredData = [];
 
 var filters = document.querySelector('.map__filters');
 var filterOfTypeOfAccommodation = filters.querySelector('#housing-type');
@@ -16,110 +32,47 @@ function loadTheAds(data) {
 }
 
 window.updatesFilter = function () {
-  var typeOfAccommodation;
 
-  function selectTypeOfAccommodation(type) {
-    if (filterOfTypeOfAccommodation.value !== 'any') {
-      typeOfAccommodation = ads.filter(function (i) {
-        return i.offer.type === type;
-      });
-      return typeOfAccommodation;
+  function filtrateItem(property, item, key) {
+    if (property.value === 'any') {
+      return property.value;
     } else {
-      return ads;
+      return property.value === item[key].toString();
     }
   }
 
-  var filteredTypeOfAccommodation = selectTypeOfAccommodation(filterOfTypeOfAccommodation.value);
+  function filtrateTypeOfAccommodation(item) {
+    return filtrateItem(filterOfTypeOfAccommodation, item.offer, 'type');
+  }
 
-  function selectPriceOfAccommodation() {
-    var priceOfAccommodation = filteredTypeOfAccommodation;
-    if (filterPriceOfAccommodation.value === 'any') {
-      return priceOfAccommodation;
+  function filtratePriceOfAccommodation(item) {
+    var selectedPrice = chosenPrice[filterPriceOfAccommodation.value.toUpperCase()];
+    if (selectedPrice) {
+      return item.offer.price >= selectedPrice.MIN && item.offer.price <= selectedPrice.MAX;
     } else {
-      return priceOfAccommodation.filter(function (i) {
-        if ((filterPriceOfAccommodation.value === 'middle') &&
-          (i.offer.price >= 10000 && i.offer.price <= 50000)) {
-          return i.offer.price;
-        }
-        if ((filterPriceOfAccommodation.value === 'low') &&
-          (i.offer.price <= 10000)) {
-          return i.offer.price;
-        }
-        if ((filterPriceOfAccommodation.value === 'high') &&
-          (i.offer.price >= 50000)) {
-          return i.offer.price;
-        }
-      });
+      return item.offer.price;
     }
   }
 
-  var filteredPriceOfAccommodation = selectPriceOfAccommodation(filterPriceOfAccommodation.value);
-
-  function selectAumoutOfRoomsOfAccommodation() {
-    var amountOfRoomsOfAccommodation = filteredPriceOfAccommodation;
-    if (filterAmountOfRoomsOfAccommodation.value === 'any') {
-      return amountOfRoomsOfAccommodation;
-    } else {
-      return amountOfRoomsOfAccommodation.filter(function (i) {
-        if ((filterAmountOfRoomsOfAccommodation.value === '1') &&
-          (i.offer.rooms === 1)) {
-          return i.offer.rooms;
-        }
-        if ((filterAmountOfRoomsOfAccommodation.value === '2') &&
-          (i.offer.rooms === 2)) {
-          return i.offer.rooms;
-        }
-        if ((filterAmountOfRoomsOfAccommodation.value === '3') &&
-          (i.offer.rooms === 3)) {
-          return i.offer.rooms;
-        }
-      });
-    }
+  function filtrateAmountOfRoomsOfAccommodation(item) {
+    return filtrateItem(filterAmountOfRoomsOfAccommodation, item.offer, 'rooms');
   }
 
-  var filteredAmoutOfRoomsOfAccommodation = selectAumoutOfRoomsOfAccommodation(filterAmountOfRoomsOfAccommodation.value);
-
-  function selectAumoutOfGuestsOfAccommodation() {
-    var amountOfGuestsOfAccommodation = filteredAmoutOfRoomsOfAccommodation;
-    if (filterAmountOfGuestsOfAccommodation.value === 'any') {
-      return amountOfGuestsOfAccommodation;
-    } else {
-      return amountOfGuestsOfAccommodation.filter(function (i) {
-        if ((filterAmountOfGuestsOfAccommodation.value === '1') &&
-          (i.offer.guests === 1)) {
-          return i.offer.guests;
-        }
-        if ((filterAmountOfGuestsOfAccommodation.value === '2') &&
-          (i.offer.guests === 2)) {
-          return i.offer.guests;
-        }
-        if ((filterAmountOfGuestsOfAccommodation.value === '0') &&
-          (i.offer.guests === 0)) {
-          return i.offer.guests;
-        }
-      });
-    }
+  function filtrateAmountOfGuestsOfAccommodation(item) {
+    return filtrateItem(filterAmountOfGuestsOfAccommodation, item.offer, 'guests');
   }
 
-  var filteredAmoutOfGuestsOfAccommodation = selectAumoutOfGuestsOfAccommodation(filterAmountOfGuestsOfAccommodation.value);
-
-  function selectFeaturesOfAccommodation() {
-    var featuresOfAccommodation = filteredAmoutOfGuestsOfAccommodation;
+  function filtrateFeuaturesOfAccommodation(item) {
     var checkedFeaturesItems = filterFeaturesOfAccommodation.querySelectorAll('input:checked');
-    if (!checkedFeaturesItems) {
-      return featuresOfAccommodation;
-    } else {
-      return featuresOfAccommodation.filter(function (i) {
-        return Array.from(checkedFeaturesItems).every(function (element) {
-          return i.offer.features.includes(element.value);
-        });
-      });
-    }
+    return Array.from(checkedFeaturesItems).every(function (element) {
+      return item.offer.features.includes(element.value);
+    });
   }
 
-  var filteredFraturesOfAccommodation = selectFeaturesOfAccommodation(filterFeaturesOfAccommodation);
+  filteredData = ads.slice(0);
+  filteredData = filteredData.filter(filtrateTypeOfAccommodation).filter(filtratePriceOfAccommodation).filter(filtrateAmountOfRoomsOfAccommodation).filter(filtrateAmountOfGuestsOfAccommodation).filter(filtrateFeuaturesOfAccommodation);
 
-  window.renderPins(filteredFraturesOfAccommodation.slice(0, 5));
+  window.renderPins(filteredData.slice(0, 5));
 };
 
 window.load(loadTheAds, window.errorHandler);
@@ -138,5 +91,6 @@ filters.addEventListener('change', function () {
     window.updatesFilter();
   }, DEBOUNCE_INTERVAL);
 
+  window.removeCards();
 });
 

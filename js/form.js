@@ -4,7 +4,6 @@
   var ENTER_KEY = 'Enter';
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
-  // var inputAddress = adForm.querySelector('#address');
   var typeOfAccomodation = adForm.querySelector('#type');
   var priceOfAccomodation = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');

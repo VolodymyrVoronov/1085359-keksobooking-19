@@ -84,12 +84,12 @@
     closeAdPopup.addEventListener('click', function () {
       cardElement.remove();
       window.checkIfIsThereAClass();
-    });
+    }, {once: true});
     document.addEventListener('keydown', function (e) {
       if (e.key === ESC_KEY) {
         cardElement.remove();
         window.checkIfIsThereAClass();
       }
-    });
+    }, {once: true});
   };
 })();
