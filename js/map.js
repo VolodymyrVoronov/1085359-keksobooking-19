@@ -7,15 +7,22 @@
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
 
+  function onSubmitBtnClick(evt) {
+    window.save(adForm, window.successHandler, window.errorHandler);
+    evt.preventDefault();
+  }
+
   window.activateWebsite = function () {
     blockMap.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     setEnabled(inputsOfAdFrom);
+    adForm.addEventListener('submit', onSubmitBtnClick);
   };
 
   window.deactivateWebsite = function () {
     blockMap.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
+    adForm.removeEventListener('submit', onSubmitBtnClick);
     setDisabled(inputsOfAdFrom);
   };
 

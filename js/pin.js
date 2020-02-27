@@ -29,9 +29,9 @@
     var pinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinElements.forEach(function (element, index) {
       element.addEventListener('click', function () {
+        element.classList.add('map__pin--active');
         window.removeCards();
         window.checkIfIsThereAClass();
-        element.classList.add('map__pin--active');
         window.renderCards(datas[index]);
         window.mountedCard();
       });
