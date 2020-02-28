@@ -1,8 +1,6 @@
 'use strict';
 
-var DEBOUNCE_INTERVAL = 500;
-
-var chosenPrice = {
+var ChosenPrice = {
   LOW: {
     MIN: 0,
     MAX: 10000
@@ -46,7 +44,7 @@ window.updatesFilter = function () {
   }
 
   function filtratePriceOfAccommodation(item) {
-    var selectedPrice = chosenPrice[filterPriceOfAccommodation.value.toUpperCase()];
+    var selectedPrice = ChosenPrice[filterPriceOfAccommodation.value.toUpperCase()];
     if (selectedPrice) {
       return item.offer.price >= selectedPrice.MIN && item.offer.price <= selectedPrice.MAX;
     } else {
@@ -76,21 +74,4 @@ window.updatesFilter = function () {
 };
 
 window.load(loadTheAds, window.errorHandler);
-
-filters.addEventListener('change', function () {
-  var pinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-  for (var i = 0; i < pinElements.length; i++) {
-    pinElements[i].remove();
-  }
-
-  var lastTimeout;
-  if (lastTimeout) {
-    window.clearTimeout(lastTimeout);
-  }
-  lastTimeout = window.setTimeout(function () {
-    window.updatesFilter();
-  }, DEBOUNCE_INTERVAL);
-
-  window.removeCards();
-});
 
