@@ -2,7 +2,7 @@
 
 (function () {
   var ESC_KEY = 'Escape';
-  var TYPES_OF_ACCOMODATIONS = {
+  var typeOfAccommodation = {
     palace: 'Дворец',
     flat: 'Квартира',
     house: 'Дом',
@@ -46,13 +46,13 @@
     mapEl.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
 
     if (data.offer.type === 'palace') {
-      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.palace;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.palace;
     } else if (data.offer.type === 'flat') {
-      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.flat;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.flat;
     } else if (data.offer.type === 'house') {
-      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.house;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.house;
     } else if (data.offer.type === 'bungalo') {
-      mapEl.querySelector('.popup__type').textContent = TYPES_OF_ACCOMODATIONS.bungalo;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.bungalo;
     }
 
     mapEl.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
@@ -81,15 +81,20 @@
   window.mountedCard = function () {
     var cardElement = document.querySelector('.map__card');
     var closeAdPopup = cardElement.querySelector('.popup__close');
-    closeAdPopup.addEventListener('click', function () {
-      cardElement.remove();
-      window.checkIfIsThereAClass();
-    }, {once: true});
-    document.addEventListener('keydown', function (e) {
+
+    function onClosePopupKeydown(e) {
       if (e.key === ESC_KEY) {
+        document.removeEventListener('keydown', onClosePopupKeydown);
         cardElement.remove();
         window.checkIfIsThereAClass();
       }
+    }
+
+    closeAdPopup.addEventListener('click', function () {
+      document.removeEventListener('keydown', onClosePopupKeydown);
+      cardElement.remove();
+      window.checkIfIsThereAClass();
     }, {once: true});
+    document.addEventListener('keydown', onClosePopupKeydown);
   };
 })();

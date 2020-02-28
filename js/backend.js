@@ -2,12 +2,13 @@
 
 (function () {
   var URL = 'https://js.dump.academy/keksobooking/data';
-  var StatusCode = {
-    OK: 200,
-  };
   var TIMEOUT_IN_MS = 1000;
   var ESC_KEY = 'Escape';
   var ENTER_KEY = 'Enter';
+
+  var StatusCode = {
+    OK: 200,
+  };
 
   window.load = function (onLoad, onError) {
     var xhr = new XMLHttpRequest();
