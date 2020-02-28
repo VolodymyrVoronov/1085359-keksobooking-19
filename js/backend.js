@@ -71,12 +71,12 @@
       if (e.key === ESC_KEY) {
         successHandlerMessage.remove();
       }
-    });
+    }, {once: true});
     window.addEventListener('click', function (e) {
       if (e.target !== successMessage) {
         successHandlerMessage.remove();
       }
-    }, true);
+    }, {once: true});
     adForm.reset();
     window.deactivateWebsite();
     mainPin.style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
@@ -90,7 +90,7 @@
     mainPin.addEventListener('mouseup', function (e) {
       if (e.which === 1) {
         window.activateWebsite();
-        window.load(window.renderPins, window.errorHandler);
+        window.updatesFilter();
       }
     }, {
       once: true
@@ -99,7 +99,7 @@
     mainPin.addEventListener('keydown', function (e) {
       if (e.key === ENTER_KEY) {
         window.activateWebsite();
-        window.load(window.renderPins, window.errorHandler);
+        window.updatesFilter();
       }
     }, {
       once: true

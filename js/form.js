@@ -4,7 +4,6 @@
   var ENTER_KEY = 'Enter';
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
-  // var inputAddress = adForm.querySelector('#address');
   var typeOfAccomodation = adForm.querySelector('#type');
   var priceOfAccomodation = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
@@ -110,7 +109,7 @@
     mainPin.addEventListener('mouseup', function (e) {
       if (e.which === 1) {
         window.activateWebsite();
-        window.load(window.renderPins, window.errorHandler);
+        window.updatesFilter();
       }
     }, {
       once: true
@@ -119,7 +118,7 @@
     mainPin.addEventListener('keydown', function (e) {
       if (e.key === ENTER_KEY) {
         window.activateWebsite();
-        window.load(window.renderPins, window.errorHandler);
+        window.updatesFilter();
       }
     }, {
       once: true
@@ -157,9 +156,4 @@
   });
 
   window.setDisabled(inputsOfAdFrom);
-
-  adForm.addEventListener('submit', function (evt) {
-    window.save(adForm, window.successHandler, window.errorHandler);
-    evt.preventDefault();
-  });
 })();

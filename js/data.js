@@ -20,19 +20,8 @@
   var DESCS = ['Лучшее место и место, где свершается обладание и проявляет себя силой помысла, — все это дан пример, т. е. в своей непосредственности проявление видимого органа маги. Особенно показателен тут пример звукового созерцания. Звук — это наиболее сильное из проявлений духовного ощущения...', 'Лучшее место? По уставу это никого не касается. В компьютерную игру дело не идет. Только для психотерапевта обязательно. На второй уровень не пускали. Выпускный класс прошли? Ага. Десять встреч в неделю. И получили испытательный сертификат. Запишите. Про три месяца. Отношение ко мне серьезное.', 'Тот самый отель и сейчас стоял в том же самом номере, из окна которого он тогда смотрел на сидящего за круглым столом худого человечка с трубкой во рту. Вдруг он вспомнил: в последний раз во дворе отеля тот говорил что-то о мудром Петре Великом.'];
   var PHOTOS = ['http://o0.github.io/assets/images/tokyo/hotel1.jpg', 'http://o0.github.io/assets/images/tokyo/hotel2.jpg', 'http://o0.github.io/assets/images/tokyo/hotel3.jpg'];
   var OBJECTS_AMOUNT = 8;
-  // var ESC_KEY = 'Escape';
-  // var ENTER_KEY = 'Enter';
 
   var pinsBlock = document.querySelector('.map__pins');
-  // var blockMap = document.querySelector('.map');
-  // var mainPin = document.querySelector('.map__pin--main');
-  // var pinTemplate = document.querySelector('#pin').content.querySelector('.map__pin');
-  // var cardTemplate = document.querySelector('#card').content.querySelector('.map__card');
-  // var offers = [];
-
-  // var adForm = document.querySelector('.ad-form');
-  // var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
-  // var inputAddress = adForm.querySelector('#address');
   var offers = [];
 
   window.offers = offers;

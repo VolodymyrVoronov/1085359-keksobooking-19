@@ -73,15 +73,7 @@
       upEvt.preventDefault();
 
       document.removeEventListener('mousemove', onMouseMove);
-      document.removeEventListener('mouseup', onMouseMove);
-
-      // if (isDragged) {
-      //   function onClickPreventDefault(clickEvt) {
-      //     clickEvt.preventDefault();
-      //     mainPin.removeEventListener('click', onClickPreventDefault);
-      //   }
-      //   mainPin.addEventListener('click', onClickPreventDefault);
-      // }
+      document.removeEventListener('mouseup', onMouseUp);
     }
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);

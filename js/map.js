@@ -2,23 +2,27 @@
 
 (function () {
   var ENTER_KEY = 'Enter';
-
-  // var pinsBlock = document.querySelector('.map__pins');
   var mainPin = document.querySelector('.map__pin--main');
   var blockMap = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
-  // var inputAddress = adForm.querySelector('#address');
+
+  function onSubmitBtnClick(evt) {
+    window.save(adForm, window.successHandler, window.errorHandler);
+    evt.preventDefault();
+  }
 
   window.activateWebsite = function () {
     blockMap.classList.remove('map--faded');
     adForm.classList.remove('ad-form--disabled');
     setEnabled(inputsOfAdFrom);
+    adForm.addEventListener('submit', onSubmitBtnClick);
   };
 
   window.deactivateWebsite = function () {
     blockMap.classList.add('map--faded');
     adForm.classList.add('ad-form--disabled');
+    adForm.removeEventListener('submit', onSubmitBtnClick);
     setDisabled(inputsOfAdFrom);
   };
 
@@ -37,7 +41,6 @@
   mainPin.addEventListener('mouseup', function (e) {
     if (e.which === 1) {
       window.activateWebsite();
-      // window.load(window.renderPins, window.errorHandler);
       window.updatesFilter();
     }
   }, {
@@ -47,7 +50,6 @@
   mainPin.addEventListener('keydown', function (e) {
     if (e.key === ENTER_KEY) {
       window.activateWebsite();
-      // window.load(window.renderPins, window.errorHandler);
       window.updatesFilter();
     }
   }, {

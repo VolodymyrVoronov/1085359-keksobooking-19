@@ -71,16 +71,25 @@
     pinsBlock.appendChild(fragment);
   };
 
+  window.checkIfIsThereAClass = function () {
+    var hasClass = document.querySelector('.map__pin--active');
+    if (hasClass) {
+      hasClass.classList.remove('map__pin--active');
+    }
+  };
+
   window.mountedCard = function () {
     var cardElement = document.querySelector('.map__card');
     var closeAdPopup = cardElement.querySelector('.popup__close');
     closeAdPopup.addEventListener('click', function () {
       cardElement.remove();
-    });
+      window.checkIfIsThereAClass();
+    }, {once: true});
     document.addEventListener('keydown', function (e) {
       if (e.key === ESC_KEY) {
         cardElement.remove();
+        window.checkIfIsThereAClass();
       }
-    });
+    }, {once: true});
   };
 })();
