@@ -93,7 +93,6 @@
     mainPin.addEventListener('mouseup', function (e) {
       if (e.which === 1) {
         window.activateWebsite();
-        // window.updatesFilter();
       }
     }, {
       once: true
@@ -102,7 +101,6 @@
     mainPin.addEventListener('keydown', function (e) {
       if (e.key === ENTER_KEY) {
         window.activateWebsite();
-        // window.updatesFilter();
       }
     }, {
       once: true
