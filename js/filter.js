@@ -1,77 +1,89 @@
 'use strict';
 
-var ChosenPrice = {
-  LOW: {
-    MIN: 0,
-    MAX: 10000
-  },
-  MIDDLE: {
-    MIN: 10000,
-    MAX: 50000
-  },
-  HIGH: {
-    MIN: 50000,
-    MAX: Infinity
-  }
-};
+(function () {
 
-var ads = [];
-var filteredData = [];
-
-var filters = document.querySelector('.map__filters');
-var filterOfTypeOfAccommodation = filters.querySelector('#housing-type');
-var filterPriceOfAccommodation = filters.querySelector('#housing-price');
-var filterAmountOfRoomsOfAccommodation = filters.querySelector('#housing-rooms');
-var filterAmountOfGuestsOfAccommodation = filters.querySelector('#housing-guests');
-var filterFeaturesOfAccommodation = filters.querySelector('#housing-features');
-
-function loadTheAds(data) {
-  ads = data;
-}
-
-window.updatesFilter = function () {
-
-  function filtrateItem(property, item, key) {
-    if (property.value === 'any') {
-      return property.value;
-    } else {
-      return property.value === item[key].toString();
+  var ChosenPrice = {
+    LOW: {
+      MIN: 0,
+      MAX: 10000
+    },
+    MIDDLE: {
+      MIN: 10000,
+      MAX: 50000
+    },
+    HIGH: {
+      MIN: 50000,
+      MAX: Infinity
     }
-  }
+  };
 
-  function filtrateTypeOfAccommodation(item) {
-    return filtrateItem(filterOfTypeOfAccommodation, item.offer, 'type');
-  }
+  var ads = [];
+  var filteredData = [];
 
-  function filtratePriceOfAccommodation(item) {
-    var selectedPrice = ChosenPrice[filterPriceOfAccommodation.value.toUpperCase()];
-    if (selectedPrice) {
-      return item.offer.price >= selectedPrice.MIN && item.offer.price <= selectedPrice.MAX;
-    } else {
-      return item.offer.price;
+  var filters = document.querySelector('.map__filters');
+  var filterOfTypeOfAccommodation = filters.querySelector('#housing-type');
+  var filterPriceOfAccommodation = filters.querySelector('#housing-price');
+  var filterAmountOfRoomsOfAccommodation = filters.querySelector('#housing-rooms');
+  var filterAmountOfGuestsOfAccommodation = filters.querySelector('#housing-guests');
+  var filterFeaturesOfAccommodation = filters.querySelector('#housing-features');
+
+  window.redrawPins = window.debounce(function () {
+    window.updatesFilter();
+  });
+
+  window.loadTheAds = function (data) {
+    ads = data;
+    window.renderPins(ads.slice(0, 5));
+  };
+
+  window.updatesFilter = function () {
+
+    function filtrateItem(property, item, key) {
+      if (property.value === 'any') {
+        return property.value;
+      } else {
+        return property.value === item[key].toString();
+      }
     }
-  }
 
-  function filtrateAmountOfRoomsOfAccommodation(item) {
-    return filtrateItem(filterAmountOfRoomsOfAccommodation, item.offer, 'rooms');
-  }
+    function filtrateTypeOfAccommodation(item) {
+      return filtrateItem(filterOfTypeOfAccommodation, item.offer, 'type');
+    }
 
-  function filtrateAmountOfGuestsOfAccommodation(item) {
-    return filtrateItem(filterAmountOfGuestsOfAccommodation, item.offer, 'guests');
-  }
+    function filtratePriceOfAccommodation(item) {
+      var selectedPrice = ChosenPrice[filterPriceOfAccommodation.value.toUpperCase()];
+      if (selectedPrice) {
+        return item.offer.price >= selectedPrice.MIN && item.offer.price <= selectedPrice.MAX;
+      } else {
+        return item.offer.price;
+      }
+    }
 
-  function filtrateFeuaturesOfAccommodation(item) {
-    var checkedFeaturesItems = filterFeaturesOfAccommodation.querySelectorAll('input:checked');
-    return Array.from(checkedFeaturesItems).every(function (element) {
-      return item.offer.features.includes(element.value);
+    function filtrateAmountOfRoomsOfAccommodation(item) {
+      return filtrateItem(filterAmountOfRoomsOfAccommodation, item.offer, 'rooms');
+    }
+
+    function filtrateAmountOfGuestsOfAccommodation(item) {
+      return filtrateItem(filterAmountOfGuestsOfAccommodation, item.offer, 'guests');
+    }
+
+    function filtrateFeuaturesOfAccommodation(item) {
+      var checkedFeaturesItems = filterFeaturesOfAccommodation.querySelectorAll('input:checked');
+      return Array.from(checkedFeaturesItems).every(function (element) {
+        return item.offer.features.includes(element.value);
+      });
+    }
+
+    filteredData = ads.slice(0);
+
+    filteredData = filteredData.filter(function (param) {
+      if (filtrateTypeOfAccommodation(param) && filtratePriceOfAccommodation(param) && filtrateAmountOfRoomsOfAccommodation(param) && filtrateAmountOfGuestsOfAccommodation(param) && filtrateFeuaturesOfAccommodation(param)) {
+        return true;
+      } else {
+        return false;
+      }
     });
-  }
 
-  filteredData = ads.slice(0);
-  filteredData = filteredData.filter(filtrateTypeOfAccommodation).filter(filtratePriceOfAccommodation).filter(filtrateAmountOfRoomsOfAccommodation).filter(filtrateAmountOfGuestsOfAccommodation).filter(filtrateFeuaturesOfAccommodation);
-
-  window.renderPins(filteredData.slice(0, 5));
-};
-
-window.load(loadTheAds, window.errorHandler);
-
+    window.renderPins(filteredData.slice(0, 5));
+  };
+})();
