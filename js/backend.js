@@ -36,27 +36,27 @@
   };
 
   window.save = function (form, formOnLoad, formOnError) {
-    var oReq = new XMLHttpRequest();
-    var oData = new FormData(form);
+    var xhr = new XMLHttpRequest();
+    var formData = new FormData(form);
 
-    oReq.addEventListener('load', function () {
-      if (oReq.status === StatusCode.OK) {
-        formOnLoad(oReq.response);
+    xhr.addEventListener('load', function () {
+      if (xhr.status === StatusCode.OK) {
+        formOnLoad(xhr.response);
       } else {
-        formOnError('Статус ответа: ' + oReq.status + ' ' + oReq.statusText);
+        formOnError('Статус ответа: ' + xhr.status + ' ' + xhr.statusText);
       }
     });
 
-    oReq.addEventListener('error', function () {
+    xhr.addEventListener('error', function () {
       formOnError('Произошла ошибка соединения');
     });
-    oReq.addEventListener('timeout', function () {
-      formOnError('Запрос не успел выполниться за ' + oReq.timeout + 'мс');
+    xhr.addEventListener('timeout', function () {
+      formOnError('Запрос не успел выполниться за ' + xhr.timeout + 'мс');
     });
 
-    oReq.timeout = TIMEOUT_IN_MS;
-    oReq.open('POST', 'https://js.dump.academy/keksobooking');
-    oReq.send(oData);
+    xhr.timeout = TIMEOUT_IN_MS;
+    xhr.open('POST', 'https://js.dump.academy/keksobooking');
+    xhr.send(formData);
   };
 
   window.successHandler = function () {
@@ -68,6 +68,8 @@
     var successHandlerMessage = successTemplate.cloneNode(true);
     document.body.insertAdjacentElement('afterbegin', successHandlerMessage);
     var successMessage = document.querySelector('.success__message');
+    var inputAddress = document.querySelector('#address');
+
     document.addEventListener('keydown', function (e) {
       if (e.key === ESC_KEY) {
         successHandlerMessage.remove();
@@ -91,7 +93,7 @@
     mainPin.addEventListener('mouseup', function (e) {
       if (e.which === 1) {
         window.activateWebsite();
-        window.updatesFilter();
+        // window.updatesFilter();
       }
     }, {
       once: true
@@ -100,19 +102,20 @@
     mainPin.addEventListener('keydown', function (e) {
       if (e.key === ENTER_KEY) {
         window.activateWebsite();
-        window.updatesFilter();
+        // window.updatesFilter();
       }
     }, {
       once: true
     });
+    inputAddress.value = (410 + ', ' + 655);
   };
 
   window.errorHandler = function () {
     var errorTemplate = document.querySelector('#error').content.querySelector('.error');
     var errorHandlerMessage = errorTemplate.cloneNode(true);
-    var errorBtn = document.querySelector('.error__button');
     document.body.insertAdjacentElement('afterbegin', errorHandlerMessage);
     var errorMessage = document.querySelector('.error__message');
+    var errorBtn = document.querySelector('.error__button');
     document.addEventListener('keydown', function (e) {
       if (e.key === ESC_KEY) {
         errorHandlerMessage.remove();

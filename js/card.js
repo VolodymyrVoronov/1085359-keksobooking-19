@@ -18,8 +18,8 @@
     elementFeature.classList.add('popup__feature');
     for (var i = 0; i < features.length; i++) {
       var cloneElement = elementFeature.cloneNode(true);
-      var classModif = 'popup__feature--' + features[i];
-      cloneElement.classList.add(classModif);
+      var classModifier = 'popup__feature--' + features[i];
+      cloneElement.classList.add(classModifier);
       fragment.appendChild(cloneElement);
     }
     container.appendChild(fragment);

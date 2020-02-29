@@ -2,12 +2,12 @@
 
 (function () {
   var ENTER_KEY = 'Enter';
-  var DEBOUNCE_INTERVAL = 500;
 
   var mainPin = document.querySelector('.map__pin--main');
   var blockMap = document.querySelector('.map');
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
+  var priceOfAccommodation = adForm.querySelector('#price');
   var filters = document.querySelector('.map__filters');
   var filterOfTypeOfAccommodation = filters.querySelector('#housing-type');
   var filterPriceOfAccommodation = filters.querySelector('#housing-price');
@@ -34,21 +34,13 @@
     for (var i = 0; i < pinElements.length; i++) {
       pinElements[i].remove();
     }
-
-    var lastTimeout;
-    if (lastTimeout) {
-      window.clearTimeout(lastTimeout);
-    }
-    lastTimeout = window.setTimeout(function () {
-      window.updatesFilter();
-    }, DEBOUNCE_INTERVAL);
-
     window.removeCards();
+    window.redrawPins();
   }
 
   function onSubmitBtnClick(evt) {
-    window.save(adForm, window.successHandler, window.errorHandler);
     evt.preventDefault();
+    window.save(adForm, window.successHandler, window.errorHandler);
   }
 
   window.activateWebsite = function () {
@@ -57,6 +49,8 @@
     setEnabled(inputsOfAdFrom);
     adForm.addEventListener('submit', onSubmitBtnClick);
     filters.addEventListener('change', onFilterChange);
+    window.load(window.loadTheAds, window.errorHandler);
+    priceOfAccommodation.min = 1000;
   };
 
   window.deactivateWebsite = function () {

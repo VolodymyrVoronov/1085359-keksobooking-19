@@ -5,7 +5,7 @@
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
   var typeOfAccomodation = adForm.querySelector('#type');
-  var priceOfAccomodation = adForm.querySelector('#price');
+  var priceOfAccommodation = adForm.querySelector('#price');
   var timeIn = adForm.querySelector('#timein');
   var timeOut = adForm.querySelector('#timeout');
   var numberOfRooms = adForm.querySelector('#room_number');
@@ -78,17 +78,17 @@
 
   function checkValidityOfInputs(e) {
     if (e.target.value === 'bungalo') {
-      priceOfAccomodation.placeholder = 0;
-      priceOfAccomodation.min = 0;
+      priceOfAccommodation.placeholder = 0;
+      priceOfAccommodation.min = 0;
     } else if (e.target.value === 'flat') {
-      priceOfAccomodation.placeholder = 1000;
-      priceOfAccomodation.min = 1000;
+      priceOfAccommodation.placeholder = 1000;
+      priceOfAccommodation.min = 1000;
     } else if (e.target.value === 'house') {
-      priceOfAccomodation.placeholder = 5000;
-      priceOfAccomodation.min = 5000;
+      priceOfAccommodation.placeholder = 5000;
+      priceOfAccommodation.min = 5000;
     } else if (e.target.value === 'palace') {
-      priceOfAccomodation.placeholder = 10000;
-      priceOfAccomodation.min = 10000;
+      priceOfAccommodation.placeholder = 10000;
+      priceOfAccommodation.min = 10000;
     }
   }
 
@@ -109,7 +109,7 @@
     mainPin.addEventListener('mouseup', function (e) {
       if (e.which === 1) {
         window.activateWebsite();
-        window.updatesFilter();
+        // window.updatesFilter();
       }
     }, {
       once: true
@@ -118,7 +118,7 @@
     mainPin.addEventListener('keydown', function (e) {
       if (e.key === ENTER_KEY) {
         window.activateWebsite();
-        window.updatesFilter();
+        // window.updatesFilter();
       }
     }, {
       once: true
