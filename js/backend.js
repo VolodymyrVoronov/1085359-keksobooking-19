@@ -110,6 +110,7 @@
       once: true
     });
     inputAddress.value = (DEFAULT_INPUT_VALUE_ADDRESS);
+    window.clearImages();
   };
 
   window.errorHandler = function () {
