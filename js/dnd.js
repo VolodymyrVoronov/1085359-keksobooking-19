@@ -1,10 +1,26 @@
 'use strict';
 
 (function () {
+  var DEFAULT_INPUT_VALUE_ADDRESS = 410 + ', ' + 655;
+  var MAIN_PIN_SIZE_WIDTH = 65;
+  var MAIN_PIN_SIZE_HEIGHT = 65;
+  var MAIN_PIN_HEIGHT_TAIL = 22;
+  var DIVIDER = 2;
+  var Limits = {
+    Y: {
+      MIN: 0,
+      MAX: 1200,
+    },
+    X: {
+      MIN: 130,
+      MAX: 630,
+    }
+  };
+
   var mainPin = document.querySelector('.map__pin--main');
   var inputAddress = document.querySelector('#address');
 
-  inputAddress.value = (410 + ', ' + 655);
+  inputAddress.value = (DEFAULT_INPUT_VALUE_ADDRESS);
 
   mainPin.addEventListener('mousedown', function (evt) {
     evt.preventDefault();
@@ -33,24 +49,24 @@
       };
 
       var mainPinSize = {
-        width: 65,
-        height: 65,
+        width: MAIN_PIN_SIZE_WIDTH,
+        height: MAIN_PIN_SIZE_HEIGHT,
       };
 
       var limits = {
         x: {
-          min: 0,
-          max: 1200,
+          min: Limits.Y.MIN,
+          max: Limits.Y.MAX,
         },
         y: {
-          min: 130,
-          max: 630,
+          min: Limits.X.MIN,
+          max: Limits.X.MAX,
         }
       };
 
       var limitShapes = {
-        top: limits.y.min - mainPinSize.height / 2,
-        bottom: limits.y.max - mainPinSize.height / 2,
+        top: limits.y.min - mainPinSize.height / DIVIDER,
+        bottom: limits.y.max - mainPinSize.height / DIVIDER,
         left: limits.x.min,
         right: limits.x.max - mainPinSize.width,
       };
@@ -63,8 +79,8 @@
       }
 
       var pinTailCoordinates = {
-        x: mainPinCoordinates.x + Math.floor(mainPinSize.width / 2),
-        y: mainPinCoordinates.y + mainPinSize.height + 22,
+        x: mainPinCoordinates.x + Math.floor(mainPinSize.width / DIVIDER),
+        y: mainPinCoordinates.y + mainPinSize.height + MAIN_PIN_HEIGHT_TAIL,
       };
       inputAddress.value = (pinTailCoordinates.x + ', ' + pinTailCoordinates.y);
     }

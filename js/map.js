@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY = 'Enter';
+  var DEFAULT_PRICE_OF_ACCOMMODATION = 1000;
 
   var mainPin = document.querySelector('.map__pin--main');
   var blockMap = document.querySelector('.map');
@@ -31,9 +31,9 @@
 
   function onFilterChange() {
     var pinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
-    for (var i = 0; i < pinElements.length; i++) {
-      pinElements[i].remove();
-    }
+    pinElements.forEach(function (element) {
+      element.remove();
+    });
     window.removeCards();
     window.redrawPins();
   }
@@ -50,7 +50,7 @@
     adForm.addEventListener('submit', onSubmitBtnClick);
     filters.addEventListener('change', onFilterChange);
     window.load(window.loadTheAds, window.errorHandler);
-    priceOfAccommodation.min = 1000;
+    priceOfAccommodation.min = DEFAULT_PRICE_OF_ACCOMMODATION;
   };
 
   window.deactivateWebsite = function () {
@@ -63,15 +63,15 @@
   };
 
   function setDisabled(array) {
-    for (var i = 0; i < array.length; i++) {
-      array[i].disabled = true;
-    }
+    array.forEach(function (element) {
+      element.disabled = true;
+    });
   }
 
   function setEnabled(array) {
-    for (var i = 0; i < array.length; i++) {
-      array[i].disabled = false;
-    }
+    array.forEach(function (element) {
+      element.disabled = false;
+    });
   }
 
   mainPin.addEventListener('mouseup', function (e) {
@@ -84,7 +84,7 @@
   });
 
   mainPin.addEventListener('keydown', function (e) {
-    if (e.key === ENTER_KEY) {
+    if (e.key === window.utils.ENTER_KEY) {
       window.activateWebsite();
       window.updatesFilter();
     }

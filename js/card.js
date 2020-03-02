@@ -1,7 +1,6 @@
 'use strict';
 
 (function () {
-  var ESC_KEY = 'Escape';
   var typeOfAccommodation = {
     palace: 'Дворец',
     flat: 'Квартира',
@@ -16,23 +15,23 @@
     var fragment = document.createDocumentFragment();
     var elementFeature = document.createElement('li');
     elementFeature.classList.add('popup__feature');
-    for (var i = 0; i < features.length; i++) {
+    features.forEach(function (element) {
       var cloneElement = elementFeature.cloneNode(true);
-      var classModifier = 'popup__feature--' + features[i];
+      var classModifier = 'popup__feature--' + element;
       cloneElement.classList.add(classModifier);
       fragment.appendChild(cloneElement);
-    }
+    });
     container.appendChild(fragment);
   }
 
   function renderPhotos(photos, container, elementOfImage) {
     container.textContent = '';
     var fragment = document.createDocumentFragment();
-    for (var i = 0; i < photos.length; i++) {
+    photos.forEach(function (element) {
       var newElement = elementOfImage.cloneNode(true);
-      newElement.src = photos[i];
+      newElement.src = element;
       fragment.appendChild(newElement);
-    }
+    });
     container.appendChild(fragment);
   }
 
@@ -46,13 +45,13 @@
     mapEl.querySelector('.popup__text--price').textContent = data.offer.price + '₽/ночь';
 
     if (data.offer.type === 'palace') {
-      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation .palace;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.palace;
     } else if (data.offer.type === 'flat') {
-      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation .flat;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.flat;
     } else if (data.offer.type === 'house') {
-      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation .house;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.house;
     } else if (data.offer.type === 'bungalo') {
-      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation .bungalo;
+      mapEl.querySelector('.popup__type').textContent = typeOfAccommodation.bungalo;
     }
 
     mapEl.querySelector('.popup__text--capacity').textContent = data.offer.rooms + ' комнаты для ' + data.offer.guests + ' гостей';
@@ -83,7 +82,7 @@
     var closeAdPopup = cardElement.querySelector('.popup__close');
 
     function onClosePopupKeydown(e) {
-      if (e.key === ESC_KEY) {
+      if (e.key === window.utils.ESC_KEY) {
         document.removeEventListener('keydown', onClosePopupKeydown);
         cardElement.remove();
         window.checkIfIsThereAClass();

@@ -1,6 +1,7 @@
 'use strict';
 
 (function () {
+  var MAX_AMOUNT_OF_OFFERS = 5;
 
   var ChosenPrice = {
     LOW: {
@@ -77,13 +78,13 @@
     filteredData = ads.slice(0);
 
     filteredData = filteredData.filter(function (param) {
-      if (filtrateTypeOfAccommodation(param) && filtratePriceOfAccommodation(param) && filtrateAmountOfRoomsOfAccommodation(param) && filtrateAmountOfGuestsOfAccommodation(param) && filtrateFeuaturesOfAccommodation(param)) {
-        return true;
-      } else {
-        return false;
-      }
+      return filtrateTypeOfAccommodation(param) &&
+      filtratePriceOfAccommodation(param) &&
+      filtrateAmountOfRoomsOfAccommodation(param) &&
+      filtrateAmountOfGuestsOfAccommodation(param) &&
+      filtrateFeuaturesOfAccommodation(param);
     });
 
-    window.renderPins(filteredData.slice(0, 5));
+    window.renderPins(filteredData.slice(0, MAX_AMOUNT_OF_OFFERS));
   };
 })();

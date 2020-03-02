@@ -21,10 +21,10 @@
   window.renderPins = function (datas) {
     var pinsBlock = document.querySelector('.map__pins');
     var fragmentPins = document.createDocumentFragment();
-    for (var i = 0; i < datas.length; i++) {
-      var renderElement = renderPin(datas[i]);
+    datas.forEach(function (element) {
+      var renderElement = renderPin(element);
       fragmentPins.appendChild(renderElement);
-    }
+    });
     pinsBlock.appendChild(fragmentPins);
     var pinElements = document.querySelectorAll('.map__pin:not(.map__pin--main)');
     pinElements.forEach(function (element, index) {

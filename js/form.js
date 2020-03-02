@@ -1,7 +1,9 @@
 'use strict';
 
 (function () {
-  var ENTER_KEY = 'Enter';
+  var START_Y_COORDINATE_OF_MAIN_PIN = 570;
+  var START_X_COORDINATE_OF_MAIN_PIN = 375;
+  var DEFAULT_INPUT_VALUE_ADDRESS = 410 + ', ' + 655;
   var adForm = document.querySelector('.ad-form');
   var inputsOfAdFrom = document.querySelectorAll('.ad-form__element');
   var typeOfAccomodation = adForm.querySelector('#type');
@@ -12,6 +14,7 @@
   var capacityOfRooms = adForm.querySelector('#capacity');
   var resetBtn = adForm.querySelector('.ad-form__reset');
   var mainPin = document.querySelector('.map__pin--main');
+  var inputAddress = document.querySelector('#address');
 
   function checkNumberOfRooms(e) {
     if (e.target.value === '1') {
@@ -98,7 +101,7 @@
 
     adForm.reset();
     window.deactivateWebsite();
-    mainPin.style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
+    mainPin.style = 'left: ' + START_Y_COORDINATE_OF_MAIN_PIN + 'px; top: ' + START_X_COORDINATE_OF_MAIN_PIN + 'px';
     if (card) {
       card.remove();
     }
@@ -115,18 +118,20 @@
     });
 
     mainPin.addEventListener('keydown', function (e) {
-      if (e.key === ENTER_KEY) {
+      if (e.key === window.utils.ENTER_KEY) {
         window.activateWebsite();
       }
     }, {
       once: true
     });
+    inputAddress.value = (DEFAULT_INPUT_VALUE_ADDRESS);
+    window.clearImages();
   }
 
   window.setDisabled = function (array) {
-    for (var i = 0; i < array.length; i++) {
-      array[i].disabled = true;
-    }
+    array.forEach(function (element) {
+      element.disabled = true;
+    });
   };
 
   resetBtn.addEventListener('click', function () {
