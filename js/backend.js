@@ -2,9 +2,13 @@
 
 (function () {
   var URL = 'https://js.dump.academy/keksobooking/data';
+  var URL_TO_SEND_FORM = 'https://js.dump.academy/keksobooking';
   var TIMEOUT_IN_MS = 1000;
-  var ESC_KEY = 'Escape';
-  var ENTER_KEY = 'Enter';
+
+  var START_Y_COORDINATE_OF_MAIN_PIN = 570;
+  var START_X_COORDINATE_OF_MAIN_PIN = 375;
+  var CLICK_ON_LEFT_BUTTON_OF_MOUSE = 1;
+  var DEFAULT_INPUT_VALUE_ADDRESS = 410 + ', ' + 655;
 
   var StatusCode = {
     OK: 200,
@@ -55,7 +59,7 @@
     });
 
     xhr.timeout = TIMEOUT_IN_MS;
-    xhr.open('POST', 'https://js.dump.academy/keksobooking');
+    xhr.open('POST', URL_TO_SEND_FORM);
     xhr.send(formData);
   };
 
@@ -71,7 +75,7 @@
     var inputAddress = document.querySelector('#address');
 
     document.addEventListener('keydown', function (e) {
-      if (e.key === ESC_KEY) {
+      if (e.key === window.utils.ESC_KEY) {
         successHandlerMessage.remove();
       }
     }, {once: true});
@@ -82,7 +86,7 @@
     }, {once: true});
     adForm.reset();
     window.deactivateWebsite();
-    mainPin.style = 'left: ' + 570 + 'px; top: ' + 375 + 'px';
+    mainPin.style = 'left: ' + START_Y_COORDINATE_OF_MAIN_PIN + 'px; top: ' + START_X_COORDINATE_OF_MAIN_PIN + 'px';
     if (card) {
       card.remove();
     }
@@ -91,7 +95,7 @@
     });
 
     mainPin.addEventListener('mouseup', function (e) {
-      if (e.which === 1) {
+      if (e.which === CLICK_ON_LEFT_BUTTON_OF_MOUSE) {
         window.activateWebsite();
       }
     }, {
@@ -99,13 +103,13 @@
     });
 
     mainPin.addEventListener('keydown', function (e) {
-      if (e.key === ENTER_KEY) {
+      if (e.key === window.utils.ENTER_KEY) {
         window.activateWebsite();
       }
     }, {
       once: true
     });
-    inputAddress.value = (410 + ', ' + 655);
+    inputAddress.value = (DEFAULT_INPUT_VALUE_ADDRESS);
   };
 
   window.errorHandler = function () {
@@ -115,7 +119,7 @@
     var errorMessage = document.querySelector('.error__message');
     var errorBtn = document.querySelector('.error__button');
     document.addEventListener('keydown', function (e) {
-      if (e.key === ESC_KEY) {
+      if (e.key === window.utils.ESC_KEY) {
         errorHandlerMessage.remove();
       }
     });
