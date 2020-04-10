@@ -1,7 +1,7 @@
 'use strict';
 
 (function () {
-  var URL = 'https://js.dump.academy/keksobooking/data';
+  var URL = 'https://javascript.pages.academy/keksobooking/data';
   var URL_TO_SEND_FORM = 'https://js.dump.academy/keksobooking';
   var TIMEOUT_IN_MS = 1000;
 
