@@ -1,6 +1,6 @@
 # Личный проект «Кексобукинг» [![Build status][travis-image]][travis-url]
 
-* Студент: [Volodymyr Voronov](https://up.htmlacademy.ru/javascript/19/user/1085359).
+* Студент: [Volodymyr Voronov](https://up.htmlacademy.ru/javascript/19/user/1085359). 
 * Наставник: [Владислав Кривокора](https://htmlacademy.ru/profile/krivokora).
 
 ---
